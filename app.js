@@ -30,6 +30,18 @@ mongoose.connection
   });
 
 app.post('/user', (req, res) => {
-  //console.log(req.body);
+  //console.log(JSON.stringify(req.body));
+  var UserSchema = new mongoose.Schema({
+    firstName: String,
+    lastName: String
+  });
+
+  var User = new mongoose.model('User', UserSchema);
+  var myUser = new User(req.body);
+  myUser.save( (err, myUser) => {
+    if(err) 
+      return console.error(err);
+  });
+
   res.send('Data receive :' + JSON.stringify(req.body));
 });

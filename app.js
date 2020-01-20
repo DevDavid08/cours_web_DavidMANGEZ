@@ -1,20 +1,21 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const fs = require('fs');
 
 const hostname = '127.0.0.1';
 const port = 3000;
 
-app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/index.html');
+const env = require('dotenv').config();
+const mongoose = require('mongoose');
+
+app.get('/', function (req, res) {  
+  res.sendFile(__dirname + '/index.html');
 });
 
 app.listen(3000, function () {
     console.log(`Server running at http://${hostname}:${port}/`);
 });
-
-const env = require('dotenv').config();
-const mongoose = require('mongoose');
 
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -36,9 +37,7 @@ var UserSchema = new mongoose.Schema({
 
 var User = new mongoose.model('User', UserSchema, 'User');
 
-app.post('/user', (req, res) => {
-  //console.log(JSON.stringify(req.body));
-  
+app.post('/user', (req, res) => {  
   var myUser = new User({
     firstName: req.body.firstname,
     lastName: req.body.lastname

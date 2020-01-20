@@ -17,11 +17,11 @@ app.listen(3000, function () {
 const env = require('dotenv').config();
 const mongoose = require('mongoose');
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(express.static(path.resolve(__dirname, '/index.html')));
+//app.use(express.static(path.resolve(__dirname, '/index.html')));
 
-mongoose.connect(process.env.DATABASE, {useMongoClient: true});
+mongoose.connect(process.env.DATABASE, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 mongoose.connection
   .on('connected', () => {
@@ -29,8 +29,9 @@ mongoose.connection
   })
   .on('error', (err) => {
     console.log(`Connection error: ${err.message}`);
-  })
+  });
 
-app.post('/user', function (req, res) {
-    res.send('Data receive :' + JSON.stringify(req.body));
+app.post('/user', (req, res) => {
+  //console.log(req.body);
+  res.send('Data receive :' + JSON.stringify(req.body));
 });

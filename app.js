@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const path = require('path');
 
 const hostname = '127.0.0.1';
 const port = 3000;
@@ -19,7 +18,6 @@ const mongoose = require('mongoose');
 
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-//app.use(express.static(path.resolve(__dirname, '/index.html')));
 
 mongoose.connect(process.env.DATABASE, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;

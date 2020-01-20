@@ -29,21 +29,24 @@ mongoose.connection
     console.log(`Connection error: ${err.message}`);
   });
 
+var UserSchema = new mongoose.Schema({
+  firstName: String,
+  lastName: String
+});
+
+var User = new mongoose.model('User', UserSchema, 'User');
+
 app.post('/user', (req, res) => {
   //console.log(JSON.stringify(req.body));
-  var UserSchema = new mongoose.Schema({
-    firstName: String,
-    lastName: String
+  
+  var myUser = new User({
+    firstName: req.body.firstname,
+    lastName: req.body.lastname
   });
-
-  var User = new mongoose.model('User', UserSchema);
-  var myUser = new User(req.body);
   myUser.save( (err, myUser) => {
     if(err)
       return console.error(err);
   });
-
-  console.log(User.find());
 
   res.send('Data receive :' + JSON.stringify(req.body));
 });
